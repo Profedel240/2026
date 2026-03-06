@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAHUEL_OS // DASHBOARD DOCENTE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;400;700&display=swap');
+
+        :root {
+            --neon-blue: #00d4ff;
+            --neon-purple: #bc13fe;
+            --neon-green: #39ff14;
+            --neon-yellow: #f4ea00;
+            --bg-dark: #050505;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #d1d1d1;
+            font-family: 'Roboto Mono', monospace;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(rgba(20, 20, 20, 0.8) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 20, 20, 0.8) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+        }
+
+        .header-font { font-family: 'Orbitron', sans-serif; }
+
+        .subject-card {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: fit-content;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .class-link {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            margin: 0.2rem 0;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.75rem;
+            transition: all 0.2s;
+            color: #888;
+            text-decoration: none;
+        }
+
+        .class-link:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            border-color: var(--current-color);
+        }
+
+        /* Colores por materia */
+        .orfse { --current-color: var(--neon-blue); border-top: 4px solid var(--neon-blue); }
+        .gad { --current-color: var(--neon-purple); border-top: 4px solid var(--neon-purple); }
+        .so { --current-color: var(--neon-green); border-top: 4px solid var(--neon-green); }
+        .bdd { --current-color: var(--neon-yellow); border-top: 4px solid var(--neon-yellow); }
+
+        .neon-text { text-shadow: 0 0 10px var(--current-color); color: var(--current-color); }
+
+        .scroll-container {
+            max-height: 450px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-blue); }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <header class="mb-12 text-center border-b border-white/10 pb-8">
+        <h1 class="header-font text-4xl md:text-6xl font-black tracking-tighter mb-2">NAHUEL_OS <span class="text-xs opacity-50">DASHBOARD</span></h1>
+        <p class="text-[10px] uppercase tracking-[0.5em] opacity-60">Centro de Operaciones Pedagógicas // González Catán</p>
+    </header>
+
+    <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- MATERIA: ORFSE -->
+        <section class="subject-card orfse p-6">
+            <h2 class="header-font text-xl neon-text mb-4 uppercase">ORFSE</h2>
+            <p class="text-[10px] mb-4 opacity-50">Org. de Rec. Físicos de Sist. Electrónicos</p>
+            <div class="scroll-container" id="list-orfse"></div>
+        </section>
+
+        <!-- MATERIA: GAD -->
+        <section class="subject-card gad p-6">
+            <h2 class="header-font text-xl neon-text mb-4 uppercase">GAD</h2>
+            <p class="text-[10px] mb-4 opacity-50">Gestión y Administración de Datos</p>
+            <div class="scroll-container" id="list-gad"></div>
+        </section>
+
+        <!-- MATERIA: SO -->
+        <section class="subject-card so p-6">
+            <h2 class="header-font text-xl neon-text mb-4 uppercase">SO</h2>
+            <p class="text-[10px] mb-4 opacity-50">Sistemas Operativos</p>
+            <div class="scroll-container" id="list-so"></div>
+        </section>
+
+        <!-- MATERIA: BDD -->
+        <section class="subject-card bdd p-6">
+            <h2 class="header-font text-xl neon-text mb-4 uppercase">BDD</h2>
+            <p class="text-[10px] mb-4 opacity-50">Bases de Datos</p>
+            <div class="scroll-container" id="list-bdd"></div>
+        </section>
+
+    </main>
+
+    <footer class="mt-20 text-center text-[10px] opacity-40 uppercase tracking-widest border-t border-white/10 pt-8">
+        <p>Hacer lo mejor en mi metro cuadrado // Dejar fluir el resultado</p>
+        <p class="mt-2">2026 - Héroe Incomprendido - Reparador Obsesivo</p>
+    </footer>
+
+    <script>
+        /**
+         * Nahuel, acá tenés la matriz de datos.
+         * Solo tenés que completar el campo 'url' con el link de tu clase subida.
+         * Si dejás la url vacía (""), el sistema lo marca como 'pendiente' (grisado).
+         */
+
+        const baseDatosClases = {
+            orfse: [
+                { id: 1, url: "https://profedel240.github.io/2026/fase1.html", desc: "Historia Eléctrica: El Génesis" },
+                { id: 2, url: "https://profedel240.github.io/2026/fase2.html", desc: "Historia Eléctrica: El Colapso" },
+                { id: 3, url: "https://profedel240.github.io/2026/fase3.html", desc: "Historia Eléctrica: El Mercado" },
+                // Agregá acá los objetos {id: 4, url: "...", desc: "..."} hasta el 20
+            ],
+            gad: [
+                { id: 1, url: "https://profedel240.github.io/2026/fase1.html", desc: "Historia Eléctrica: El Génesis" },
+                { id: 2, url: "https://profedel240.github.io/2026/fase2.html", desc: "Historia Eléctrica: El Colapso" },
+                { id: 3, url: "https://profedel240.github.io/2026/fase3.html", desc: "Historia Eléctrica: El Mercado" },
+                // Agregá acá los objetos {id: 4, url: "...", desc: "..."} hasta el 20
+            ],
+            so: [
+                { id: 1, url: "https://profedel240.github.io/2026/fase1.html", desc: "Historia Eléctrica: El Génesis" },
+                { id: 2, url: "https://profedel240.github.io/2026/fase2.html", desc: "Historia Eléctrica: El Colapso" },
+                { id: 3, url: "https://profedel240.github.io/2026/fase3.html", desc: "Historia Eléctrica: El Mercado" },
+                // Agregá acá los objetos {id: 4, url: "...", desc: "..."} hasta el 20
+            ],
+            bdd: [
+                { id: 1, url: "https://profedel240.github.io/2026/fase1.html", desc: "Historia Eléctrica: El Génesis" },
+                { id: 2, url: "https://profedel240.github.io/2026/fase2.html", desc: "Historia Eléctrica: El Colapso" },
+                { id: 3, url: "https://profedel240.github.io/2026/fase3.html", desc: "Historia Eléctrica: El Mercado" },
+                // Agregá acá los objetos {id: 4, url: "...", desc: "..."} hasta el 20
+            ]
+        };
+
+        function populateDashboard(materiaKey, containerId) {
+            const container = document.getElementById(containerId);
+            const clasesGuardadas = baseDatosClases[materiaKey];
+            
+            let contenidoHtml = "";
+            for (let i = 1; i <= 20; i++) {
+                const claseEncontrada = clasesGuardadas.find(c => c.id === i);
+                const hasUrl = claseEncontrada && claseEncontrada.url !== "";
+                
+                const linkUrl = hasUrl ? claseEncontrada.url : "#";
+                const titulo = hasUrl ? claseEncontrada.desc : "Clase no disponible";
+                const activeClass = hasUrl ? "border-l-2" : "opacity-30 cursor-not-allowed grayscale";
+                
+                contenidoHtml += `
+                    <a href="${linkUrl}" class="class-link ${activeClass}" ${hasUrl ? 'target="_blank"' : ''}>
+                        <span class="font-bold mr-3 opacity-50">#${i.toString().padStart(2, '0')}</span>
+                        <span class="truncate">${titulo}</span>
+                        ${hasUrl ? '<i class="fas fa-external-link-alt ml-auto text-[8px] opacity-40"></i>' : ''}
+                    </a>
+                `;
+            }
+            container.innerHTML = contenidoHtml;
+        }
+
+        // Inicialización de la terminal
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("NAHUEL_OS: Cargando sectores de memoria...");
+            populateDashboard('orfse', 'list-orfse');
+            populateDashboard('gad', 'list-gad');
+            populateDashboard('so', 'list-so');
+            populateDashboard('bdd', 'list-bdd');
+        });
+    </script>
+</body>
+</html>
