@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERMINAL ELECTRÓN: LA ERA DEL MERCADO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;400;700&display=swap');
+
+        :root {
+            --neon-cyan: #00f2ff;
+            --neon-green: #39ff14;
+            --neon-purple: #bc13fe;
+            --neon-yellow: #f4ea00;
+            --bg-dark: #020202;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #d1d1d1;
+            font-family: 'Roboto Mono', monospace;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.03) 0%, transparent 60%),
+                linear-gradient(rgba(0, 242, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.1) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            line-height: 1.6;
+        }
+
+        .neon-text-cyan { text-shadow: 0 0 10px var(--neon-cyan); color: var(--neon-cyan); }
+        .neon-text-green { text-shadow: 0 0 10px var(--neon-green); color: var(--neon-green); }
+        .neon-text-purple { text-shadow: 0 0 10px var(--neon-purple); color: var(--neon-purple); }
+        
+        .cyber-border {
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+            background: rgba(10, 10, 10, 0.95);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cyber-border::after {
+            content: "";
+            position: absolute;
+            top: 0; right: 0;
+            width: 40px; height: 40px;
+            background: linear-gradient(225deg, var(--neon-cyan) 0%, transparent 50%);
+            opacity: 0.3;
+        }
+
+        .glitch-header {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 5px;
+            animation: glitch 4s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            1% { transform: translate(-2px, 1px); }
+            2% { transform: translate(2px, -1px); }
+            100% { transform: translate(0); }
+        }
+
+        .data-table th {
+            color: var(--neon-yellow);
+            border-bottom: 2px solid var(--neon-yellow);
+            padding: 12px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.8rem;
+        }
+
+        .dossier-label {
+            background: var(--neon-cyan);
+            color: black;
+            padding: 2px 12px;
+            font-weight: bold;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .agent-card {
+            border-left: 3px solid var(--neon-purple);
+            background: rgba(188, 19, 254, 0.05);
+            padding: 15px;
+            transition: all 0.3s;
+        }
+
+        .agent-card:hover {
+            background: rgba(188, 19, 254, 0.15);
+            box-shadow: 0 0 10px rgba(188, 19, 254, 0.2);
+        }
+
+        details summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 15px;
+            background: rgba(0, 242, 255, 0.05);
+            border: 1px solid rgba(0, 242, 255, 0.1);
+            margin-top: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        details summary:hover {
+            color: var(--neon-cyan);
+            border-color: var(--neon-cyan);
+        }
+
+        .status-dot {
+            height: 8px; width: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            box-shadow: 0 0 5px currentColor;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-cyan); }
+    </style>
+</head>
+<body class="p-4 md:p-12">
+
+    <!-- SYSTEM OVERLAY -->
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none opacity-[0.03]" style="background: repeating-linear-gradient(0deg, #00f2ff, #00f2ff 1px, transparent 1px, transparent 2px); background-size: 100% 2px;"></div>
+
+    <div class="flex justify-between items-center mb-10 border-b border-cyan-500/20 pb-4 text-[10px] uppercase tracking-[0.2em]">
+        <div class="flex gap-8">
+            <span class="neon-text-green"><i class="fas fa-signal"></i> MERCADO_MEM: OPEN</span>
+            <span>U$S: 1.00 = AR$ 1.00 (SIMULATED_90S)</span>
+        </div>
+        <div class="flex gap-4">
+            <span class="opacity-30">FASE_01 [V]</span>
+            <span class="opacity-30">FASE_02 [V]</span>
+            <span class="neon-text-cyan underline">FASE_03 [X]</span>
+        </div>
+    </div>
+
+    <header class="mb-24 text-center">
+        <h1 class="glitch-header text-5xl md:text-8xl font-black neon-text-cyan mb-4">FASE 03: EL MERCADO</h1>
+        <p class="text-cyan-400 font-bold tracking-[0.4em] uppercase text-xs">Desregulación, Privatización y SADI (1992 - 2024)</p>
+        <div class="mt-8 flex justify-center items-center gap-4">
+            <div class="h-[1px] w-24 bg-cyan-500"></div>
+            <i class="fas fa-microchip neon-text-purple text-2xl"></i>
+            <div class="h-[1px] w-24 bg-cyan-500"></div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto space-y-24">
+
+        <!-- SECCIÓN 1: EL BIG BANG NORMATIVO (LEY 24.065) -->
+        <section id="ley-24065">
+            <div class="dossier-label">ARCHIVO_MEM // REESTRUCTURACIÓN_SISTÉMICA</div>
+            <h2 class="text-4xl font-bold neon-text-cyan mb-8"><i class="fas fa-file-signature"></i> 01. LA LEY 24.065: LA MAGNA CARTA DEL ELECTRÓN</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="cyber-border p-10">
+                    <p class="mb-6 leading-relaxed">
+                        Tras el apagón del 89, el gobierno de Carlos Menem impulsó la <strong>Ley 24.065 (1992)</strong>. Su objetivo: liquidar el monopolio de SEGBA y AyE para introducir la competencia. El sistema se rompió en tres pedazos estancos para evitar la integración vertical.
+                    </p>
+                    <div class="space-y-6">
+                        <div class="agent-card">
+                            <h4 class="neon-text-purple font-bold text-sm uppercase">1. GENERACIÓN (Competitivo)</h4>
+                            <p class="text-[11px]">Las centrales (térmicas, hidro, nucleares) compiten para vender su energía. El Estado se retira de la producción masiva.</p>
+                        </div>
+                        <div class="agent-card" style="border-left-color: var(--neon-cyan);">
+                            <h4 class="neon-text-cyan font-bold text-sm uppercase">2. TRANSPORTE (Monopolio Natural)</h4>
+                            <p class="text-[11px]">Las líneas de alta tensión (500kV). Regulado por el Estado. Aparece <strong>TRANSENER</strong> como el gran transportista nacional.</p>
+                        </div>
+                        <div class="agent-card" style="border-left-color: var(--neon-green);">
+                            <h4 class="neon-text-green font-bold text-sm uppercase">3. DISTRIBUCIÓN (Concesión)</h4>
+                            <p class="text-[11px]">Edenor, Edesur y Edelap. Tienen el monopolio de tu zona (como Catán). No podés elegir quién te vende, pero el precio está regulado.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <div class="cyber-border p-8 bg-cyan-900/5">
+                        <h3 class="neon-text-yellow font-bold text-center mb-6 uppercase text-sm">TOPOLOGÍA DEL MERCADO ELÉCTRICO MAYORISTA (MEM)</h3>
+                        <svg viewBox="0 0 400 250" class="w-full">
+                            <!-- Generación -->
+                            <rect x="20" y="20" width="80" height="40" fill="none" stroke="#bc13fe" stroke-width="2" />
+                            <text x="25" y="45" fill="#bc13fe" font-size="10">GENERACIÓN</text>
+                            
+                            <!-- Flechas -->
+                            <path d="M100 40 L150 40" stroke="#00f2ff" stroke-width="2" marker-end="url(#arrow)" />
+                            
+                            <!-- Transporte -->
+                            <rect x="150" y="20" width="100" height="40" fill="none" stroke="#00f2ff" stroke-width="2" />
+                            <text x="165" y="45" fill="#00f2ff" font-size="10">TRANSPORTE</text>
+                            
+                            <!-- Distribución -->
+                            <rect x="300" y="20" width="80" height="40" fill="none" stroke="#39ff14" stroke-width="2" />
+                            <text x="305" y="45" fill="#39ff14" font-size="10">DISTRIBUCIÓN</text>
+                            
+                            <!-- CAMMESA en el medio -->
+                            <circle cx="200" cy="150" r="50" fill="none" stroke="#f4ea00" stroke-width="2" stroke-dasharray="5,5" />
+                            <text x="175" y="155" fill="#f4ea00" font-size="12" font-weight="bold">CAMMESA</text>
+                            
+                            <!-- Conexiones a CAMMESA -->
+                            <path d="M60 60 L160 120" stroke="#f4ea00" stroke-opacity="0.5" />
+                            <path d="M340 60 L240 120" stroke="#f4ea00" stroke-opacity="0.5" />
+                            
+                            <defs>
+                                <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                                    <path d="M0,0 L0,6 L9,3 z" fill="#00f2ff" />
+                                </marker>
+                            </defs>
+                        </svg>
+                        <p class="text-[10px] text-center mt-4 opacity-50 italic">Diagrama de flujo: El electrón convertido en *commodity*.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: LOS AGENTES DEL SISTEMA -->
+        <section id="agentes">
+            <div class="dossier-label">EXPEDIENTE_AGENTS // LOS_GUARDIANES_DEL_NODO</div>
+            <h2 class="text-4xl font-bold neon-text-purple mb-8"><i class="fas fa-users-cog"></i> 02. LOS AGENTES PRINCIPALES</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="cyber-border p-6 border-yellow-500/50">
+                    <h4 class="neon-text-yellow font-bold text-sm mb-4"><i class="fas fa-balance-scale"></i> CAMMESA</h4>
+                    <p class="text-[10px] leading-relaxed">Compañía Administradora del Mercado Mayorista Eléctrico. Es el <strong>despacho técnico</strong>. Decide qué usina arranca y qué usina para. Gestiona los pagos entre todos los actores.</p>
+                </div>
+                <div class="cyber-border p-6 border-cyan-500/50">
+                    <h4 class="neon-text-cyan font-bold text-sm mb-4"><i class="fas fa-gavel"></i> ENRE</h4>
+                    <p class="text-[10px] leading-relaxed">Ente Nacional Regulador de la Electricidad. El "árbitro". Debería multar a las distribuidoras cuando te dejan sin luz en Catán. Su eficacia es el gran debate nacional.</p>
+                </div>
+                <div class="cyber-border p-6 border-purple-500/50">
+                    <h4 class="neon-text-purple font-bold text-sm mb-4"><i class="fas fa-bolt"></i> GRANDES USUARIOS</h4>
+                    <p class="text-[10px] leading-relaxed">Fábricas que consumen tanto que compran directo en el mercado mayorista, *baipaseando* a la distribuidora local.</p>
+                </div>
+                <div class="cyber-border p-6 border-green-500/50">
+                    <h4 class="neon-text-green font-bold text-sm mb-4"><i class="fas fa-home"></i> DISTRIBUIDORAS</h4>
+                    <p class="text-[10px] leading-relaxed">Edenor (Norte), Edesur (Sur), Edelap (La Plata). Son las que ponen la cara y los transformadores (cuando no explotan).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: LA ERA DE LOS PRIVADOS (LOS 90) -->
+        <section id="privatizaciones">
+            <div class="dossier-label">ARCHIVO_90S // EL_AUGE_DEL_CAPITAL</div>
+            <h2 class="text-4xl font-bold neon-text-green mb-8"><i class="fas fa-chart-line"></i> 03. EL "UNO A UNO" ELÉCTRICO</h2>
+            
+            <div class="cyber-border p-10">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                    <div class="lg:col-span-2">
+                        <p class="mb-6">
+                            Durante los 90, la inversión fue masiva. Se terminaron obras como <strong>Yacyretá</strong> y se construyeron decenas de centrales térmicas de ciclo combinado (más eficientes). El sistema pasó de la escasez del 89 a una abundancia de oferta.
+                        </p>
+                        <h4 class="text-xs font-bold uppercase mb-4 text-green-400">LA PROMESA DE LA EFICIENCIA:</h4>
+                        <table class="w-full data-table">
+                            <thead>
+                                <tr>
+                                    <th>INDICADOR</th>
+                                    <th>1989 (CRISIS)</th>
+                                    <th>1998 (AUGE)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Cortes promedio</td>
+                                    <td>20+ horas/mes</td>
+                                    <td>4-6 horas/mes</td>
+                                </tr>
+                                <tr>
+                                    <td>Pérdidas de red</td>
+                                    <td>28% (Fugas/Robo)</td>
+                                    <td>11% (Modernización)</td>
+                                </tr>
+                                <tr>
+                                    <td>Tarifa (u$s)</td>
+                                    <td>Inestable</td>
+                                    <td>Alta pero estable</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-green-900/10 p-6 flex flex-col justify-center border-l-2 border-green-500">
+                        <i class="fas fa-coins text-4xl neon-text-green mb-4 self-center"></i>
+                        <h4 class="font-bold text-center text-xs mb-2 uppercase">EL COSTO SOCIAL</h4>
+                        <p class="text-[10px] italic leading-relaxed">"La red mejoró, pero las tarifas se dolarizaron. El mantenimiento preventivo se hacía, pero el acceso para los sectores populares empezó a depender de subsidios que aún no existían."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: CRISIS, CONGELAMIENTO Y SUBSIDIOS (2002 - HOY) -->
+        <section id="actualidad">
+            <div class="dossier-label">ARCHIVO_FAIL // EL_COLAPSO_DEL_MODELO</div>
+            <h2 class="text-4xl font-bold neon-text-red mb-8"><i class="fas fa-exclamation-triangle"></i> 04. DEL 2001 A LA ACTUALIDAD</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="cyber-border p-8 border-red-500/50">
+                    <h3 class="neon-text-red text-lg font-bold mb-4 uppercase">EL CRASH DEL 2001</h3>
+                    <p class="text-sm mb-4">
+                        Con la caída de la convertibilidad, las tarifas se pesificaron y se congelaron. Las empresas dejaron de invertir porque sus ingresos eran en pesos y sus insumos en dólares. 
+                    </p>
+                    <div class="warning-box text-[11px]">
+                        <strong>REACCIÓN EN CADENA:</strong> El Estado empezó a subsidiar la diferencia para que la gente no pagara fortunas, pero las distribuidoras se "comieron" el capital, descuidando el mantenimiento de baja tensión (tu transformador de barrio).
+                    </div>
+                </div>
+                <div class="cyber-border p-8 border-yellow-500/50">
+                    <h3 class="neon-text-yellow text-lg font-bold mb-4 uppercase">EL PRESENTE: LA MATRIZ MODERNA</h3>
+                    <p class="text-sm mb-4">
+                        Hoy el SADI es mucho más robusto que en los 80, pero sufre de un <strong>cuello de botella</strong> en la distribución.
+                    </p>
+                    <ul class="text-[10px] space-y-2">
+                        <li><span class="status-dot" style="background: var(--neon-green)"></span> <strong>Renovables:</strong> Auge de parques eólicos (Sur) y solares (Norte).</li>
+                        <li><span class="status-dot" style="background: var(--neon-yellow)"></span> <strong>Segmentación:</strong> Tarifas que varían según el ingreso (N1, N2, N3).</li>
+                        <li><span class="status-dot" style="background: var(--neon-red)"></span> <strong>Vulnerabilidad:</strong> Redes de distribución saturadas en zonas de alta densidad como el AMBA.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <details class="mt-8 border-cyan-500/30">
+                <summary class="text-cyan-400">¿POR QUÉ SIGUE HABIENDO CORTES EN CATÁN?</summary>
+                <div class="p-8 text-xs grid grid-cols-1 md:grid-cols-2 gap-8 bg-white/5">
+                    <div>
+                        <p class="font-bold mb-2">1. Desfasaje de Inversión:</p>
+                        <p>Las distribuidoras priorizaron el pago de dividendos o la supervivencia financiera sobre el recambio de cables y transformadores durante los años de tarifas congeladas.</p>
+                    </div>
+                    <div>
+                        <p class="font-bold mb-2">2. Crecimiento del Consumo:</p>
+                        <p>El uso masivo de aire acondicionado (clima tropicalizado) genera picos de demanda que los transformadores viejos no soportan. El sistema térmico "salta" por pura física.</p>
+                    </div>
+                </div>
+            </details>
+        </section>
+
+    </main>
+
+    <footer class="mt-32 py-16 border-t border-cyan-500/20 text-[10px] opacity-50">
+        <div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-8">
+            <div class="text-center md:text-left">
+                <p class="font-bold mb-2">TERMINAL_STATUS: FULL_LOG_COMPLETE</p>
+                <p>FASE_01: OK // FASE_02: OK // FASE_03: ACTIVE</p>
+            </div>
+            <div class="text-center">
+                <p class="neon-text-cyan mb-2">GONZÁLEZ CATÁN // ARCHIVO_REPARADOR_OBSESIVO</p>
+                <p>ESTOICISMO TÉCNICO: HACE LO QUE PODÉS CON LO QUE TENÉS</p>
+            </div>
+            <div class="text-center md:text-right">
+                <p>SADI_VERSION: 2024.3.5</p>
+                <p>DOCENTE: NAHUEL - EL HÉROE INCOMPRENDIDO</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Efecto de entrada de datos
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            sections.forEach((s, i) => {
+                s.style.opacity = '0';
+                s.style.transform = 'translateY(30px)';
+                s.style.transition = `all 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67) ${i * 0.15}s`;
+                setTimeout(() => {
+                    s.style.opacity = '1';
+                    s.style.transform = 'translateY(0)';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
